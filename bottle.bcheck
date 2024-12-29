@@ -1,0 +1,15 @@
+metadata:
+    language: v2-beta
+    name: "Bottle framework"
+    description: "The app is potentially written in bottle framework"
+    author: "malwarework"
+    tags: "information disclosure", "passive"
+
+given response then
+    if "bottle" in {to_lower({latest.response.headers})} or "bottle" in {to_lower({latest.response.body})} then
+        report issue:
+            severity: high
+            confidence: firm
+            detail: "The app is potentially written in bottle framework"
+            remediation: "Check for cache-poisoning"
+    end if

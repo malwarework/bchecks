@@ -1,0 +1,20 @@
+metadata:
+    language: v2-beta
+    name: "Deserialization error"
+    description: "JSON deserialization request's error"
+    author: "malwarework"
+    tags: "information disclosure", "passive"
+
+define:
+    insertion = "a1"
+
+given insertion point then
+    send payload:
+        appending: {insertion}
+
+        if {latest.response.body} matches "JSON parse error" then
+            report issue:
+                severity: high
+                confidence: certain
+                detail: "Error during deserialization of JSON"
+        end if

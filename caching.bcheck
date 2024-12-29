@@ -1,0 +1,15 @@
+metadata:
+    language: v2-beta
+    name: "Caching identified"
+    description: "Looks in responses to see if there is header X-Cache-Status"
+    tags: "passive, cache poisoning"
+    author: "malwarework"
+
+given response then
+    if "x-cache-status" in {to_lower({latest.response.headers})} then
+        report issue:
+            severity: high
+            confidence: firm
+            detail: "Server probably uses cache"
+            remediation: "Check for cache poisoning"
+    end if

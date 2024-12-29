@@ -1,0 +1,15 @@
+metadata:
+    language: v2-beta
+    name: "Vulnerable Gunicorn"
+    description: "Looks in responses to see if there is header Server with gunicorn"
+    tags: "passive, HTTP Request Smuggling"
+    author: "malwarework"
+
+given response then
+    if "gunicorn" in {to_lower({latest.response.headers})}  and "20.0.4" in {to_lower({latest.response.headers})} then
+        report issue:
+            severity: high
+            confidence: firm
+            detail: "Server probably runs under gunicorn 20.0.4"
+            remediation: "Check for HTTP request smuggling"
+    end if

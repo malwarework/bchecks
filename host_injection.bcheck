@@ -1,0 +1,15 @@
+metadata:
+    language: v2-beta
+    name: "Potential host injection"
+    description: "Looks in responses to see if there are absolute paths with reflected Host header"
+    tags: "passive, host injection"
+    author: "malwarework"
+
+given response then
+    if {to_lower({latest.request.url.host})} in {to_lower(latest.response.body)} then
+        report issue:
+            severity: high
+            confidence: firm
+            detail: "Host header is reflected in response"
+            remediation: "Check for host header injection"
+    end if
